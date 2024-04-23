@@ -4,7 +4,7 @@ import Image, { StaticImageData } from "next/image";
 import { Color } from "@/types/color";
 import { Cart, Transport, Star } from "@/components/ui/icons";
 import Autoplay from "embla-carousel-autoplay";
-import replaceWithPersianDigits from "@/utils/persian-number";
+import replaceWithPersianDigits from "@/utils/replace-with-persian-digits";
 import {
   Carousel,
   CarouselApi,
