@@ -45,6 +45,7 @@ const Product: FC<Product> = ({ name, images }) => {
         className="relative mb-2 overflow-hidden rounded-md"
         setApi={setApi}
       >
+        <Image src={images[0]} className="absolute blur-3xl" alt={name} />
         <CarouselContent className="-ml-0" dir="ltr">
           {images.map((image, index) => (
             <CarouselItem className="pl-0" key={index} dir="rtl">
