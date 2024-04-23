@@ -125,3 +125,47 @@ export const Cart: FC<SVGProps<SVGSVGElement>> = ({ ...otherProps }) => {
     </svg>
   );
 };
+
+export const Transport: FC<SVGProps<SVGSVGElement>> = ({ ...otherProps }) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="12"
+      height="12"
+      fill="none"
+      stroke="currentColor"
+      {...otherProps}
+    >
+      <g strokeLinecap="round" strokeLinejoin="round">
+        <path d="M6 7h.5c.55 0 1-.45 1-1V1H3a2 2 0 0 0-1.745 1.025" />
+        <path d="M1 8.5A1.5 1.5 0 0 0 2.5 10H3c0-.55.45-1 1-1s1 .45 1 1h2c0-.55.45-1 1-1s1 .45 1 1h.5A1.5 1.5 0 0 0 11 8.5V7H9.5a.5.5 0 0 1-.5-.5V5a.5.5 0 0 1 .5-.5h.645L9.29 3.005a1.01 1.01 0 0 0-.87-.505H7.5V6c0 .55-.45 1-1 1H6" />
+      </g>
+      <path
+        d="M4 11a1 1 0 1 0 0-2 1 1 0 1 0 0 2zm4 0a1 1 0 1 0 0-2 1 1 0 1 0 0 2zm3-5v1H9.5a.5.5 0 0 1-.5-.5V5a.5.5 0 0 1 .5-.5h.645L11 6z"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M1 4h3M1 5.5h2M1 7h1"
+        strokeLinejoin="round"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+};
+
+export const Star: FC<SVGProps<SVGSVGElement>> = ({ ...otherProps }) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="7"
+      height="7"
+      fill="none"
+      {...otherProps}
+    >
+      <path
+        d="M6.83 3.074L5.42 4.304l.422 1.831a.5.5 0 0 1-.193.518.5.5 0 0 1-.552.024L3.5 5.709l-1.594.969a.5.5 0 0 1-.552-.024.5.5 0 0 1-.193-.518l.422-1.829-1.41-1.232a.5.5 0 0 1-.149-.533.5.5 0 0 1 .434-.344l1.858-.161.725-1.73a.5.5 0 0 1 .184-.223A.5.5 0 0 1 3.502 0a.5.5 0 0 1 .46.307l.728 1.73 1.858.161a.5.5 0 0 1 .434.344.5.5 0 0 1-.149.533H6.83z"
+        fill="currentColor"
+      />
+    </svg>
+  );
+};

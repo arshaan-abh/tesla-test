@@ -7,7 +7,16 @@ const Products: Product[] = [
     id: 0,
     name: "کراپ‌تاپ آستین بلند زنانه ماییلدا مدل 4423-437 رنگ مشکی ...",
     images: [product, product, product, product],
-    colors: [{ color: `#000000`, image: product }],
+    colors: [
+      { color: "#383837" },
+      { color: "#865222" },
+      { color: "#C5FBE4" },
+      { color: "#D67777", notification: true },
+      { color: "#323F35", notification: true },
+      { color: "#323F35" },
+      { color: "#323F35" },
+    ],
+    score: 4.8,
   },
 ];
 
