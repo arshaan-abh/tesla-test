@@ -16,6 +16,9 @@ const config: Config = {
       fontFamily: {
         sans: ["var(--font-sans)", ...fontFamily.sans],
       },
+      colors: {
+        "tesla-black": "#292D32",
+      },
     },
   },
   plugins: [require("tailwindcss-animate")],
