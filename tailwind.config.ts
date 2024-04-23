@@ -14,7 +14,7 @@ const config: Config = {
     },
     extend: {
       fontFamily: {
-        sans: ["var(--font-sans)", ...fontFamily.sans],
+        yekan: ["var(--font-yekan)", ...fontFamily.sans],
       },
       colors: {
         "tesla-black": "#292D32",

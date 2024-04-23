@@ -97,3 +97,31 @@ export const More: FC<SVGProps<SVGSVGElement>> = ({ ...otherProps }) => {
     </svg>
   );
 };
+
+export const Cart: FC<SVGProps<SVGSVGElement>> = ({ ...otherProps }) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="18"
+      height="18"
+      fill="none"
+      {...otherProps}
+    >
+      <path
+        d="M1.125 4.567h2.061l.617 2.75 1.332 5.933h9.612l1.587-5.377"
+        stroke="currentColor"
+        strokeWidth="1.3"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M6.944 16.5a1.02 1.02 0 0 0 1.018-1.018 1.02 1.02 0 0 0-1.018-1.018 1.02 1.02 0 0 0-1.018 1.018A1.02 1.02 0 0 0 6.944 16.5zm6.399 0a1.02 1.02 0 0 0 1.018-1.018 1.02 1.02 0 0 0-1.018-1.018 1.02 1.02 0 0 0-1.018 1.018 1.02 1.02 0 0 0 1.018 1.018z"
+        fill="currentColor"
+      />
+      <g stroke="currentColor" strokeLinecap="round" strokeWidth="1.5">
+        <path d="M10.162 3v5.973" />
+        <path d="M13.148 5.986H7.175" />
+      </g>
+    </svg>
+  );
+};

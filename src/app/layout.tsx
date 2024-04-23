@@ -1,24 +1,25 @@
-import { Inter as FontSans } from "next/font/google";
+import { ReactNode } from "react";
+import localFont from "next/font/local";
 import "@/styles/globals.css";
 import { cn } from "@/utils/cn";
 import NavBar from "@/components/navbar";
 
-const fontSans = FontSans({
-  subsets: ["latin"],
-  variable: "--font-sans",
+const fontYekan = localFont({
+  src: "../fonts/yekan-bakh-noen-vf.woff2",
+  variable: "--font-yekan",
 });
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="fa-IR" dir="rtl">
+    <html
+      lang="fa-IR"
+      dir="rtl"
+      className="flex h-full w-full items-center justify-center bg-tesla-black"
+    >
       <body
         className={cn(
-          "font-sans text-tesla-black antialiased",
-          fontSans.variable,
+          "h-full w-96 bg-white font-yekan text-tesla-black antialiased",
+          fontYekan.variable,
         )}
       >
         <NavBar />
