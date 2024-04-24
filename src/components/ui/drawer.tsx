@@ -68,7 +68,7 @@ const DrawerFooter = ({
 }: React.HTMLAttributes<HTMLDivElement>) => (
   <div
     className={cn(
-      "mt-auto flex flex-col gap-2 border-t border-tesla-neutral-100 p-2 text-sm font-semibold tracking-tight",
+      "mt-auto flex flex-col gap-2 border-t border-tesla-neutral-100 text-sm font-semibold tracking-tight",
       className,
     )}
     {...props}
@@ -97,7 +97,7 @@ const DrawerDescription = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <DrawerPrimitive.Description
     ref={ref}
-    className={cn("text-sm text-slate-500 dark:text-slate-400", className)}
+    className={cn("text-sm", className)}
     {...props}
   />
 ));

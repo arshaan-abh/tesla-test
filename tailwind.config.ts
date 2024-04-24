@@ -18,6 +18,7 @@ const config: Config = {
       },
       colors: {
         "tesla-neutral": {
+          50: "#F9F9F9",
           100: "#F3F3F3",
           300: "#C8C8C8",
           400: "#B0B0B0",
