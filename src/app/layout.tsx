@@ -11,14 +11,10 @@ const fontYekan = localFont({
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html
-      lang="fa-IR"
-      dir="rtl"
-      className="flex items-center justify-center bg-tesla-neutral-900"
-    >
+    <html lang="fa-IR" dir="rtl">
       <body
         className={cn(
-          "min-h-screen w-96 bg-white font-yekan text-tesla-neutral-900 antialiased",
+          "font-yekan text-tesla-neutral-900 antialiased",
           fontYekan.variable,
         )}
       >

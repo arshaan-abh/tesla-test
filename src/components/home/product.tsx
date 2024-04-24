@@ -2,14 +2,8 @@
 import { type FC, useState, useCallback, useEffect } from "react";
 import Image, { StaticImageData } from "next/image";
 import { Color } from "@/types/color";
-import {
-  Cart,
-  Transport,
-  Star,
-  OpenBox,
-  Clock,
-  Bell,
-} from "@/components/ui/icons";
+import { Transport, Star, OpenBox, Clock, Bell } from "@/components/ui/icons";
+import AddToCart from "@/components/home/add-to-cart";
 import Autoplay from "embla-carousel-autoplay";
 import addCommas from "@/utils/add-commas";
 import replaceWithPersianDigits from "@/utils/replace-with-persian-digits";
@@ -43,6 +37,7 @@ interface Product {
 }
 
 const Product: FC<Product> = ({
+  id,
   name,
   images,
   colors,
@@ -129,13 +124,7 @@ const Product: FC<Product> = ({
           ))}
         </CarouselContent>
         <div className="absolute inset-0 top-auto z-20 flex items-end justify-between p-2">
-          {stock > 0 ? (
-            <div className="flex h-7 w-7 items-center justify-center rounded-full bg-white shadow-[0_0_8px] shadow-black/[0.16]">
-              <Cart />
-            </div>
-          ) : (
-            <div />
-          )}
+          {stock > 0 ? <AddToCart id={id} /> : <div />}
           <div className="flex gap-[0.125rem]">
             {images.map((_image, index) => (
               <div
