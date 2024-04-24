@@ -169,3 +169,31 @@ export const Star: FC<SVGProps<SVGSVGElement>> = ({ ...otherProps }) => {
     </svg>
   );
 };
+
+export const OpenBox: FC<SVGProps<SVGSVGElement>> = ({ ...otherProps }) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="14"
+      height="14"
+      fill="none"
+      {...otherProps}
+    >
+      <g clipPath="url(#A)" stroke="currentColor">
+        <g strokeLinecap="round" strokeLinejoin="round">
+          <path d="M2.333 5L7 2.333l3.995 2.283c.204.117.374.285.492.489s.18.434.18.669v3.119c0 .235-.062.466-.18.669s-.288.372-.492.489l-3.333 1.905c-.201.115-.429.176-.661.176s-.46-.061-.661-.176l-3.333-1.905c-.204-.117-.374-.285-.492-.489s-.18-.434-.18-.669V7.025" />
+          <path d="M6.368 7.327c.194.105.411.159.632.159s.438-.055.632-.159l3.701-1.993M7 7.667V12" />
+        </g>
+        <path
+          d="M2.333 5L7 7.667l-2 .667L.333 5.667l2-.667zM7 2.333L11.667 5 13 3.667 8.333 1 7 2.333z"
+          strokeLinejoin="round"
+        />
+      </g>
+      <defs>
+        <clipPath id="A">
+          <path fill="#FFFFFF" d="M0 0h14v14H0z" />
+        </clipPath>
+      </defs>
+    </svg>
+  );
+};

@@ -2,7 +2,7 @@
 import { type FC, useState, useCallback, useEffect } from "react";
 import Image, { StaticImageData } from "next/image";
 import { Color } from "@/types/color";
-import { Cart, Transport, Star } from "@/components/ui/icons";
+import { Cart, Transport, Star, OpenBox } from "@/components/ui/icons";
 import Autoplay from "embla-carousel-autoplay";
 import addCommas from "@/utils/add-commas";
 import replaceWithPersianDigits from "@/utils/replace-with-persian-digits";
@@ -12,6 +12,8 @@ import {
   CarouselItem,
   CarouselContent,
 } from "@/components/ui/carousel";
+
+const lowStockThreshold = 10;
 
 interface ProductColor {
   color: Color;
@@ -24,18 +26,22 @@ interface Product {
   name: string;
   images: StaticImageData[];
   colors: ProductColor[];
+  freeTransport?: boolean;
+  stock: number;
   score: number;
-  priceWithDiscount: number;
-  priceWithoutDiscount: number;
-  discountPercent: number;
+  price: number;
+  priceWithoutDiscount?: number;
+  discountPercent?: number;
 }
 
 const Product: FC<Product> = ({
   name,
   images,
   colors,
+  freeTransport,
+  stock,
   score,
-  priceWithDiscount,
+  price,
   priceWithoutDiscount,
   discountPercent,
 }) => {
@@ -117,7 +123,7 @@ const Product: FC<Product> = ({
           </div>
         </div>
       </Carousel>
-      <div className="mb-[0.625rem] line-clamp-2 text-[0.6875rem] font-semibold">
+      <div className="mb-[0.625rem] line-clamp-2 h-[2lh] text-[0.6875rem] font-semibold">
         {name}
       </div>
       <Carousel
@@ -133,12 +139,16 @@ const Product: FC<Product> = ({
             <CarouselItem className="basis-auto pl-2" key={index}>
               <div className="h-5 w-5 rounded-full border border-tesla-neutral-300">
                 <div
-                  className="h-full w-full rounded-full border border-white"
+                  className="flex h-full w-full items-center justify-center overflow-hidden rounded-full border border-white"
                   style={{ backgroundColor: color.color }}
-                ></div>
+                >
+                  {color.image && <Image src={color.image} alt={color.color} />}
+                </div>
               </div>
-              {color.notification && (
-                <div className="mx-auto mt-[0.1875rem] h-[0.1875rem] w-[0.1875rem] rounded-full bg-blue-500" />
+              {color.notification ? (
+                <div className="mx-auto mt-[0.1875rem] h-[0.1875rem] w-[0.1875rem] rounded-full bg-tesla-blue-500" />
+              ) : (
+                <div className="mt-[0.1875rem] h-[0.1875rem]" />
               )}
             </CarouselItem>
           ))}
@@ -150,13 +160,25 @@ const Product: FC<Product> = ({
           className={`pointer-events-none absolute inset-y-0 left-0 w-12 bg-gradient-to-r from-white to-transparent transition-opacity ${colorCarouselCanScroll.left ? "" : "opacity-0"}`}
         />
       </Carousel>
-      <div className="mb-1 flex items-center justify-between">
-        <div className="flex gap-1 text-tesla-green-600">
-          <Transport />
-          <div className="text-[0.625rem] font-semibold tracking-tight">
-            ارسال رایگان
+      <div className="mb-1 flex items-center justify-between gap-1">
+        {stock <= lowStockThreshold ? (
+          <div className="flex gap-1 text-tesla-rose-600">
+            <OpenBox />
+            <div className="text-[0.625rem] font-semibold tracking-tight">
+              تنها {replaceWithPersianDigits(stock.toString())} عدد در انبار
+              باقی مانده
+            </div>
           </div>
-        </div>
+        ) : freeTransport ? (
+          <div className="flex gap-1 text-tesla-green-600">
+            <Transport />
+            <div className="text-[0.625rem] font-semibold tracking-tight">
+              ارسال رایگان
+            </div>
+          </div>
+        ) : (
+          <div />
+        )}
         <div className="flex items-center gap-1">
           <div className="text-[0.625rem] font-semibold">
             {replaceWithPersianDigits(score.toString())}
@@ -165,19 +187,25 @@ const Product: FC<Product> = ({
         </div>
       </div>
       <div className="flex items-center gap-1">
-        <div className="text-sm font-semibold tracking-tight text-tesla-rose-600">
-          {addCommas(replaceWithPersianDigits(priceWithDiscount.toString()))}
+        <div
+          className={`text-sm font-semibold tracking-tight ${discountPercent ? "text-tesla-rose-600" : ""}`}
+        >
+          {addCommas(replaceWithPersianDigits(price.toString()))}
         </div>
         <div className="text-[0.5rem] font-semibold">تومان</div>
       </div>
-      <div className="flex items-center gap-1">
-        <div className="text-xs font-semibold tracking-tight text-tesla-neutral-300 line-through">
-          {addCommas(replaceWithPersianDigits(priceWithoutDiscount.toString()))}
+      {priceWithoutDiscount && discountPercent && (
+        <div className="flex items-center gap-1">
+          <div className="text-xs font-semibold tracking-tight text-tesla-neutral-300 line-through">
+            {addCommas(
+              replaceWithPersianDigits(priceWithoutDiscount.toString()),
+            )}
+          </div>
+          <div className="text-xs font-bold text-tesla-rose-600">
+            %{replaceWithPersianDigits(discountPercent.toString())}
+          </div>
         </div>
-        <div className="text-xs font-bold text-tesla-rose-600">
-          %{replaceWithPersianDigits(discountPercent.toString())}
-        </div>
-      </div>
+      )}
     </div>
   );
 };

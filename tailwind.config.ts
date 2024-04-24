@@ -20,6 +20,7 @@ const config: Config = {
         "tesla-neutral": { 300: "#C8C8C8", 900: "#292D32" },
         "tesla-amber": { 400: "#FCBC3A" },
         "tesla-green": { 600: "#00B31D" },
+        "tesla-blue": { 500: "#168FDF" },
         "tesla-rose": { 600: "#ED2E7E" },
       },
     },
