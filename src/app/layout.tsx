@@ -14,11 +14,11 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html
       lang="fa-IR"
       dir="rtl"
-      className="flex h-full w-full items-center justify-center bg-tesla-neutral-900"
+      className="flex items-center justify-center bg-tesla-neutral-900"
     >
       <body
         className={cn(
-          "h-full w-96 bg-white font-yekan text-tesla-neutral-900 antialiased",
+          "min-h-screen w-96 bg-white font-yekan text-tesla-neutral-900 antialiased",
           fontYekan.variable,
         )}
       >

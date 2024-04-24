@@ -2,7 +2,14 @@
 import { type FC, useState, useCallback, useEffect } from "react";
 import Image, { StaticImageData } from "next/image";
 import { Color } from "@/types/color";
-import { Cart, Transport, Star, OpenBox } from "@/components/ui/icons";
+import {
+  Cart,
+  Transport,
+  Star,
+  OpenBox,
+  Clock,
+  Bell,
+} from "@/components/ui/icons";
 import Autoplay from "embla-carousel-autoplay";
 import addCommas from "@/utils/add-commas";
 import replaceWithPersianDigits from "@/utils/replace-with-persian-digits";
@@ -32,6 +39,7 @@ interface Product {
   price: number;
   priceWithoutDiscount?: number;
   discountPercent?: number;
+  discountDeadline?: string;
 }
 
 const Product: FC<Product> = ({
@@ -44,6 +52,7 @@ const Product: FC<Product> = ({
   price,
   priceWithoutDiscount,
   discountPercent,
+  discountDeadline,
 }) => {
   const [imageCarousel, setImageCarousel] = useState<CarouselApi>();
   const [imageCarouselIndex, setImageCarouselIndex] = useState(0);
@@ -84,7 +93,17 @@ const Product: FC<Product> = ({
   }, [colorCarousel, updateColorCarouselCanScroll]);
 
   return (
-    <div className="p-1 pt-6">
+    <div className="p-1">
+      {discountDeadline ? (
+        <div className="mb-1 flex h-4 items-center justify-between gap-1 text-tesla-rose-600">
+          <div className="text-[0.625rem] font-bold">شگفت انگیز</div>
+          <div className="text-[0.625rem] font-bold">
+            {replaceWithPersianDigits(discountDeadline.toString())}
+          </div>
+        </div>
+      ) : (
+        <div className="h-5" />
+      )}
       <Carousel
         className="relative mb-2 overflow-hidden rounded-md"
         setApi={setImageCarousel}
@@ -110,9 +129,13 @@ const Product: FC<Product> = ({
           ))}
         </CarouselContent>
         <div className="absolute inset-0 top-auto z-20 flex items-end justify-between p-2">
-          <div className="flex h-7 w-7 items-center justify-center rounded-full bg-white shadow-[0_0_8px] shadow-black/[0.16]">
-            <Cart />
-          </div>
+          {stock > 0 ? (
+            <div className="flex h-7 w-7 items-center justify-center rounded-full bg-white shadow-[0_0_8px] shadow-black/[0.16]">
+              <Cart />
+            </div>
+          ) : (
+            <div />
+          )}
           <div className="flex gap-[0.125rem]">
             {images.map((_image, index) => (
               <div
@@ -126,85 +149,106 @@ const Product: FC<Product> = ({
       <div className="mb-[0.625rem] line-clamp-2 h-[2lh] text-[0.6875rem] font-semibold">
         {name}
       </div>
-      <Carousel
-        className="relative mb-[0.375rem]"
-        setApi={setColorCarousel}
-        opts={{
-          direction: "rtl",
-          dragFree: true,
-        }}
-      >
-        <CarouselContent className="-ml-2">
-          {colors.map((color, index) => (
-            <CarouselItem className="basis-auto pl-2" key={index}>
-              <div className="h-5 w-5 rounded-full border border-tesla-neutral-300">
-                <div
-                  className="flex h-full w-full items-center justify-center overflow-hidden rounded-full border border-white"
-                  style={{ backgroundColor: color.color }}
-                >
-                  {color.image && <Image src={color.image} alt={color.color} />}
+      {stock > 0 ? (
+        <>
+          <Carousel
+            className="relative mb-[0.375rem]"
+            setApi={setColorCarousel}
+            opts={{
+              direction: "rtl",
+              dragFree: true,
+            }}
+          >
+            <CarouselContent className="-ml-2">
+              {colors.map((color, index) => (
+                <CarouselItem className="basis-auto pl-2" key={index}>
+                  <div className="h-5 w-5 rounded-full border border-tesla-neutral-300">
+                    <div
+                      className="flex h-full w-full items-center justify-center overflow-hidden rounded-full border border-white"
+                      style={{ backgroundColor: color.color }}
+                    >
+                      {color.image && (
+                        <Image src={color.image} alt={color.color} />
+                      )}
+                    </div>
+                  </div>
+                  {color.notification ? (
+                    <div className="mx-auto mt-[0.1875rem] h-[0.1875rem] w-[0.1875rem] rounded-full bg-tesla-blue-500" />
+                  ) : (
+                    <div className="mt-[0.1875rem] h-[0.1875rem]" />
+                  )}
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <div
+              className={`pointer-events-none absolute inset-y-0 right-0 w-12 bg-gradient-to-l from-white to-transparent transition-opacity ${colorCarouselCanScroll.right ? "" : "opacity-0"}`}
+            />
+            <div
+              className={`pointer-events-none absolute inset-y-0 left-0 w-12 bg-gradient-to-r from-white to-transparent transition-opacity ${colorCarouselCanScroll.left ? "" : "opacity-0"}`}
+            />
+          </Carousel>
+          <div className="mb-1 flex items-center justify-between gap-1">
+            {stock <= lowStockThreshold ? (
+              <div className="flex gap-1 text-tesla-rose-600">
+                <OpenBox />
+                <div className="text-[0.625rem] font-semibold tracking-tight">
+                  تنها {replaceWithPersianDigits(stock.toString())} عدد در انبار
+                  باقی مانده
                 </div>
               </div>
-              {color.notification ? (
-                <div className="mx-auto mt-[0.1875rem] h-[0.1875rem] w-[0.1875rem] rounded-full bg-tesla-blue-500" />
-              ) : (
-                <div className="mt-[0.1875rem] h-[0.1875rem]" />
-              )}
-            </CarouselItem>
-          ))}
-        </CarouselContent>
-        <div
-          className={`pointer-events-none absolute inset-y-0 right-0 w-12 bg-gradient-to-l from-white to-transparent transition-opacity ${colorCarouselCanScroll.right ? "" : "opacity-0"}`}
-        />
-        <div
-          className={`pointer-events-none absolute inset-y-0 left-0 w-12 bg-gradient-to-r from-white to-transparent transition-opacity ${colorCarouselCanScroll.left ? "" : "opacity-0"}`}
-        />
-      </Carousel>
-      <div className="mb-1 flex items-center justify-between gap-1">
-        {stock <= lowStockThreshold ? (
-          <div className="flex gap-1 text-tesla-rose-600">
-            <OpenBox />
-            <div className="text-[0.625rem] font-semibold tracking-tight">
-              تنها {replaceWithPersianDigits(stock.toString())} عدد در انبار
-              باقی مانده
-            </div>
-          </div>
-        ) : freeTransport ? (
-          <div className="flex gap-1 text-tesla-green-600">
-            <Transport />
-            <div className="text-[0.625rem] font-semibold tracking-tight">
-              ارسال رایگان
-            </div>
-          </div>
-        ) : (
-          <div />
-        )}
-        <div className="flex items-center gap-1">
-          <div className="text-[0.625rem] font-semibold">
-            {replaceWithPersianDigits(score.toString())}
-          </div>
-          <Star className="text-tesla-amber-400" />
-        </div>
-      </div>
-      <div className="flex items-center gap-1">
-        <div
-          className={`text-sm font-semibold tracking-tight ${discountPercent ? "text-tesla-rose-600" : ""}`}
-        >
-          {addCommas(replaceWithPersianDigits(price.toString()))}
-        </div>
-        <div className="text-[0.5rem] font-semibold">تومان</div>
-      </div>
-      {priceWithoutDiscount && discountPercent && (
-        <div className="flex items-center gap-1">
-          <div className="text-xs font-semibold tracking-tight text-tesla-neutral-300 line-through">
-            {addCommas(
-              replaceWithPersianDigits(priceWithoutDiscount.toString()),
+            ) : freeTransport ? (
+              <div className="flex gap-1 text-tesla-green-600">
+                <Transport />
+                <div className="text-[0.625rem] font-semibold tracking-tight">
+                  ارسال رایگان
+                </div>
+              </div>
+            ) : (
+              <div />
             )}
+            <div className="flex items-center gap-1">
+              <div className="text-[0.625rem] font-semibold">
+                {replaceWithPersianDigits(score.toString())}
+              </div>
+              <Star className="text-tesla-amber-400" />
+            </div>
           </div>
-          <div className="text-xs font-bold text-tesla-rose-600">
-            %{replaceWithPersianDigits(discountPercent.toString())}
+          <div className="flex items-center gap-1">
+            <div
+              className={`text-sm font-semibold tracking-tight ${discountPercent ? "text-tesla-rose-600" : ""}`}
+            >
+              {addCommas(replaceWithPersianDigits(price.toString()))}
+            </div>
+            <div className="text-[0.5rem] font-semibold">تومان</div>
           </div>
-        </div>
+          {priceWithoutDiscount && discountPercent && (
+            <div className="flex items-center gap-1">
+              <div className="text-xs font-semibold tracking-tight text-tesla-neutral-300 line-through">
+                {addCommas(
+                  replaceWithPersianDigits(priceWithoutDiscount.toString()),
+                )}
+              </div>
+              <div className="text-xs font-bold text-tesla-rose-600">
+                %{replaceWithPersianDigits(discountPercent.toString())}
+              </div>
+            </div>
+          )}
+        </>
+      ) : (
+        <>
+          <div className="mb-1 flex items-center gap-1 text-tesla-neutral-400">
+            <Clock />
+            <div className="text-xs font-semibold tracking-tight">
+              به زودی...
+            </div>
+          </div>
+          <div className="flex items-center gap-1 text-tesla-blue-500">
+            <Bell />
+            <div className="text-xs font-semibold tracking-tight">
+              موجود شد خبرم کن
+            </div>
+          </div>
+        </>
       )}
     </div>
   );
@@ -215,4 +259,5 @@ export default Product;
 /* TODOs:
 . replace indexes with proper keys
 . separate client components from server components
+. implement discount deadline
 */

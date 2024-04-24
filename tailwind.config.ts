@@ -17,7 +17,7 @@ const config: Config = {
         yekan: ["var(--font-yekan)", ...fontFamily.sans],
       },
       colors: {
-        "tesla-neutral": { 300: "#C8C8C8", 900: "#292D32" },
+        "tesla-neutral": { 300: "#C8C8C8", 400: "#B0B0B0", 900: "#292D32" },
         "tesla-amber": { 400: "#FCBC3A" },
         "tesla-green": { 600: "#00B31D" },
         "tesla-blue": { 500: "#168FDF" },
