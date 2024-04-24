@@ -4,6 +4,7 @@ import Image, { StaticImageData } from "next/image";
 import { Color } from "@/types/color";
 import { Cart, Transport, Star } from "@/components/ui/icons";
 import Autoplay from "embla-carousel-autoplay";
+import addCommas from "@/utils/add-commas";
 import replaceWithPersianDigits from "@/utils/replace-with-persian-digits";
 import {
   Carousel,
@@ -24,9 +25,20 @@ interface Product {
   images: StaticImageData[];
   colors: ProductColor[];
   score: number;
+  priceWithDiscount: number;
+  priceWithoutDiscount: number;
+  discountPercent: number;
 }
 
-const Product: FC<Product> = ({ name, images, colors, score }) => {
+const Product: FC<Product> = ({
+  name,
+  images,
+  colors,
+  score,
+  priceWithDiscount,
+  priceWithoutDiscount,
+  discountPercent,
+}) => {
   const [imageCarousel, setImageCarousel] = useState<CarouselApi>();
   const [imageCarouselIndex, setImageCarouselIndex] = useState(0);
 
@@ -138,7 +150,7 @@ const Product: FC<Product> = ({ name, images, colors, score }) => {
           className={`pointer-events-none absolute inset-y-0 left-0 w-12 bg-gradient-to-r from-white to-transparent transition-opacity ${colorCarouselCanScroll.left ? "" : "opacity-0"}`}
         />
       </Carousel>
-      <div className="flex items-center justify-between">
+      <div className="mb-1 flex items-center justify-between">
         <div className="flex gap-1 text-tesla-green-600">
           <Transport />
           <div className="text-[0.625rem] font-semibold tracking-tight">
@@ -150,6 +162,20 @@ const Product: FC<Product> = ({ name, images, colors, score }) => {
             {replaceWithPersianDigits(score.toString())}
           </div>
           <Star className="text-tesla-amber-400" />
+        </div>
+      </div>
+      <div className="flex items-center gap-1">
+        <div className="text-sm font-semibold tracking-tight text-tesla-rose-600">
+          {addCommas(replaceWithPersianDigits(priceWithDiscount.toString()))}
+        </div>
+        <div className="text-[0.5rem] font-semibold">تومان</div>
+      </div>
+      <div className="flex items-center gap-1">
+        <div className="text-xs font-semibold tracking-tight text-tesla-neutral-300 line-through">
+          {addCommas(replaceWithPersianDigits(priceWithoutDiscount.toString()))}
+        </div>
+        <div className="text-xs font-bold text-tesla-rose-600">
+          %{replaceWithPersianDigits(discountPercent.toString())}
         </div>
       </div>
     </div>

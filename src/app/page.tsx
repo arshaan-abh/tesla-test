@@ -17,6 +17,9 @@ const Products: Product[] = [
       { color: "#323F35" },
     ],
     score: 4.8,
+    priceWithDiscount: 80000000,
+    priceWithoutDiscount: 120000000,
+    discountPercent: 20,
   },
 ];
 
