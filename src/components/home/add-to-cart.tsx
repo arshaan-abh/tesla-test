@@ -1,6 +1,6 @@
 import type { FC } from "react";
-import { Button } from "@/components/ui/button";
 import { Cart } from "@/components/ui/icons";
+import Add from "@/components/home/add";
 import {
   Drawer,
   DrawerClose,
@@ -24,14 +24,17 @@ const AddToCart: FC<AddToBasketProps> = () => {
       </DrawerTrigger>
       <DrawerContent>
         <DrawerHeader>
-          <DrawerTitle>اضافه کردن به سبد خرید</DrawerTitle>
-          <DrawerDescription>اضافه کردن به سبد خرید</DrawerDescription>
+          <DrawerTitle>انتخاب تعداد و اندازه مدنظر:</DrawerTitle>
+          <DrawerDescription className="grid grid-cols-3 gap-11">
+            <Add size={1} weight={3.1} />
+            <Add size={2} weight={3.1} />
+            <Add size={3} weight={3.1} />
+            <Add size={4} weight={3.1} />
+            <Add size={5} weight={3.1} />
+          </DrawerDescription>
         </DrawerHeader>
         <DrawerFooter>
-          <Button>اضافه کن</Button>
-          <DrawerClose>
-            <Button variant="outline">پشیمون شدم</Button>
-          </DrawerClose>
+          <DrawerClose>بستن</DrawerClose>
         </DrawerFooter>
       </DrawerContent>
     </Drawer>

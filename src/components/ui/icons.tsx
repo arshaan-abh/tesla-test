@@ -235,3 +235,20 @@ export const Bell: FC<SVGProps<SVGSVGElement>> = ({ ...otherProps }) => {
     </svg>
   );
 };
+
+export const Plus: FC<SVGProps<SVGSVGElement>> = ({ ...otherProps }) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="16"
+      height="16"
+      fill="none"
+      {...otherProps}
+    >
+      <path
+        d="M12.667 7.333h-4v-4c0-.177-.07-.346-.195-.471S8.177 2.667 8 2.667s-.346.07-.471.195-.195.295-.195.471v4h-4c-.177 0-.346.07-.471.195s-.195.295-.195.471.07.346.195.471.295.195.471.195h4v4c0 .177.07.346.195.471s.295.195.471.195.346-.07.471-.195.195-.295.195-.471v-4h4c.177 0 .346-.07.471-.195s.195-.295.195-.471-.07-.346-.195-.471-.295-.195-.471-.195z"
+        fill="currentColor"
+      />
+    </svg>
+  );
+};
