@@ -1,6 +1,6 @@
 import type { FC } from "react";
 import { Cart } from "@/components/ui/icons";
-import Add from "@/components/home/add";
+import AddAmount from "@/components/home/add-amount";
 import {
   Drawer,
   DrawerClose,
@@ -26,11 +26,11 @@ const AddToCart: FC<AddToBasketProps> = () => {
         <DrawerHeader>
           <DrawerTitle>انتخاب تعداد و اندازه مدنظر:</DrawerTitle>
           <DrawerDescription className="grid grid-cols-3 gap-11">
-            <Add size={1} weight={3.1} />
-            <Add size={2} weight={3.1} />
-            <Add size={3} weight={3.1} />
-            <Add size={4} weight={3.1} />
-            <Add size={5} weight={3.1} />
+            <AddAmount size={1} weight={3.1} />
+            <AddAmount size={2} weight={3.1} />
+            <AddAmount size={3} weight={3.1} />
+            <AddAmount size={4} weight={3.1} />
+            <AddAmount size={5} weight={3.1} />
           </DrawerDescription>
         </DrawerHeader>
         <DrawerFooter>

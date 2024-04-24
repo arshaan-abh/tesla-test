@@ -7,7 +7,7 @@ interface AddProps {
   weight: number;
 }
 
-const Add: FC<AddProps> = ({ size, weight }) => {
+const AddAmount: FC<AddProps> = ({ size, weight }) => {
   const [amount] = useState(0);
 
   return (
@@ -40,4 +40,4 @@ const Add: FC<AddProps> = ({ size, weight }) => {
   );
 };
 
-export default Add;
+export default AddAmount;
