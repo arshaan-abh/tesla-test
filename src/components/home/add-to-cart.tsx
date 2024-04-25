@@ -1,10 +1,11 @@
-import type { FC } from "react";
+import { type FC, useState } from "react";
 import { Cart } from "@/components/ui/icons";
 import AddAmount from "@/components/home/add-amount";
 import Image from "next/image";
 import gold from "/public/gold.png";
 import copper from "/public/copper.png";
 import silver from "/public/silver.png";
+import replaceWithPersianDigits from "@/utils/replace-with-persian-digits";
 import {
   Drawer,
   DrawerClose,
@@ -20,7 +21,7 @@ interface AddToBasketProps {
   id: number;
 }
 
-const AddToCart: FC<AddToBasketProps> = () => {
+const AddToCart: FC<AddToBasketProps> = ({ id }) => {
   return (
     <Drawer>
       <DrawerTrigger className="flex h-7 w-7 items-center justify-center rounded-full bg-white shadow-[0_0_8px] shadow-black/[0.16]">
@@ -31,11 +32,11 @@ const AddToCart: FC<AddToBasketProps> = () => {
           <DrawerTitle>انتخاب تعداد و اندازه مدنظر:</DrawerTitle>
           <DrawerDescription>
             <div className="grid grid-cols-3 gap-x-11 gap-y-4">
-              <AddAmount size={1} weight={3.1} />
-              <AddAmount size={2} weight={3.1} />
-              <AddAmount size={3} weight={3.1} />
-              <AddAmount size={4} weight={3.1} />
-              <AddAmount size={5} weight={3.1} />
+              <Add id={id} size={1} weight={3.1} />
+              <Add id={id} size={2} weight={3.1} />
+              <Add id={id} size={3} weight={3.1} />
+              <Add id={id} size={4} weight={3.1} />
+              <Add id={id} size={5} weight={3.1} />
             </div>
             <div className="h-20" />
             <div className="mb-4 flex items-center gap-3">
@@ -76,3 +77,40 @@ const AddToCart: FC<AddToBasketProps> = () => {
 };
 
 export default AddToCart;
+
+interface AddProps {
+  id: number;
+  size: number;
+  weight: number;
+}
+
+const Add: FC<AddProps> = ({ size, weight }) => {
+  const [amount, setAmount] = useState(0);
+
+  return (
+    <div>
+      <div>
+        <span className="text-[0.625rem] tracking-tight text-tesla-neutral-400">
+          سایز:{" "}
+        </span>
+        <span className="text-[0.6875rem] font-semibold tracking-tight text-tesla-neutral-800">
+          {replaceWithPersianDigits(size.toString())}
+        </span>
+      </div>
+
+      <div className="mb-1">
+        <span className="text-[0.625rem] tracking-tight text-tesla-neutral-400">
+          وزن:{" "}
+        </span>
+        <span className="text-[0.625rem] tracking-tight text-tesla-neutral-800">
+          {replaceWithPersianDigits(weight.toString()) + " "}
+        </span>
+        <span className="text-[0.5rem] tracking-tight text-tesla-neutral-800">
+          گرم
+        </span>
+      </div>
+
+      <AddAmount amount={amount} setAmount={setAmount} />
+    </div>
+  );
+};

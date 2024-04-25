@@ -1,42 +1,43 @@
-import { FC, useState } from "react";
+import { FC, Dispatch, SetStateAction } from "react";
 import { Plus } from "@/components/ui/icons";
-import replaceWithPersianDigits from "@/utils/replace-with-persian-digits";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
 
-interface AddProps {
-  size: number;
-  weight: number;
+interface AddAmountProps {
+  amount: number;
+  setAmount: Dispatch<SetStateAction<number>>;
 }
 
-const AddAmount: FC<AddProps> = ({ size, weight }) => {
-  const [amount] = useState(0);
-
+const AddAmount: FC<AddAmountProps> = ({ amount }) => {
   return (
-    <div>
-      <div>
-        <span className="text-[0.625rem] tracking-tight text-tesla-neutral-400">
-          سایز:{" "}
-        </span>
-        <span className="text-[0.6875rem] font-semibold tracking-tight text-tesla-neutral-800">
-          {replaceWithPersianDigits(size.toString())}
-        </span>
-      </div>
-
-      <div className="mb-1">
-        <span className="text-[0.625rem] tracking-tight text-tesla-neutral-400">
-          وزن:{" "}
-        </span>
-        <span className="text-[0.625rem] tracking-tight text-tesla-neutral-800">
-          {replaceWithPersianDigits(weight.toString()) + " "}
-        </span>
-        <span className="text-[0.5rem] tracking-tight text-tesla-neutral-800">
-          گرم
-        </span>
-      </div>
-
-      <div className="flex h-10 w-full items-center justify-center rounded-lg bg-tesla-rose-500 text-white">
+    <Drawer>
+      <DrawerTrigger className="flex h-10 w-full items-center justify-center rounded-lg bg-tesla-rose-500 text-white">
         {amount > 0 ? <div /> : <Plus />}
-      </div>
-    </div>
+      </DrawerTrigger>
+      <DrawerContent>
+        <DrawerHeader>
+          <DrawerTitle>
+            <div className="mb-[0.125rem]">انتخاب تعداد مد نظر</div>
+            <div className="text-[0.625rem] tracking-tight text-tesla-neutral-400">
+              تعداد مدنظر را از لیست انتخاب و یا در کادر، عدد دلخواه را وارد و
+              تایید نمایید
+            </div>
+          </DrawerTitle>
+          <DrawerDescription></DrawerDescription>
+        </DrawerHeader>
+        <DrawerFooter>
+          <DrawerClose className="p-2">بستن</DrawerClose>
+        </DrawerFooter>
+      </DrawerContent>
+    </Drawer>
   );
 };
 
