@@ -252,3 +252,23 @@ export const Plus: FC<SVGProps<SVGSVGElement>> = ({ ...otherProps }) => {
     </svg>
   );
 };
+
+export const Trash: FC<SVGProps<SVGSVGElement>> = ({ ...otherProps }) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="20"
+      height="20"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      {...otherProps}
+    >
+      <path d="M17.5 4.983l-8.35-.417c-1.65 0-3.3.083-4.95.25l-1.7.167" />
+      <path d="M7.083 4.142l.183-1.092c.133-.792.233-1.383 1.642-1.383h2.183c1.408 0 1.517.625 1.642 1.392l.183 1.083m2.792 3.475l-.542 8.392c-.092 1.308-.167 2.325-2.492 2.325h-5.35c-2.325 0-2.4-1.017-2.492-2.325L4.29 7.617" />
+      <path d="M8.608 13.75h2.775m-3.466-3.333h4.167" />
+    </svg>
+  );
+};
