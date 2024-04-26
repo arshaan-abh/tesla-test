@@ -49,6 +49,16 @@ const Product: FC<Product> = ({
   discountPercent,
   discountDeadline,
 }) => {
+  const [selectedColor, setSelectedColor] = useState(-1);
+
+  const selectColor = useCallback(
+    (index: number) => {
+      if (index === selectedColor) setSelectedColor(-1);
+      else setSelectedColor(index);
+    },
+    [selectedColor],
+  );
+
   const [imageCarousel, setImageCarousel] = useState<CarouselApi>();
   const [imageCarouselIndex, setImageCarouselIndex] = useState(0);
 
@@ -151,7 +161,12 @@ const Product: FC<Product> = ({
             <CarouselContent className="-ml-2">
               {colors.map((color, index) => (
                 <CarouselItem className="basis-auto pl-2" key={index}>
-                  <div className="h-5 w-5 rounded-full border border-tesla-neutral-300">
+                  <div
+                    className={`h-5 w-5 rounded-full border ${selectedColor === index ? "border-tesla-rose-600" : "border-tesla-neutral-300"}`}
+                    onClick={() => {
+                      selectColor(index);
+                    }}
+                  >
                     <div
                       className="flex h-full w-full items-center justify-center overflow-hidden rounded-full border border-white"
                       style={{ backgroundColor: color.color }}
