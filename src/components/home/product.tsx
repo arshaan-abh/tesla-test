@@ -17,9 +17,14 @@ import {
 const lowStockThreshold = 10;
 
 interface ProductColor {
-  color: Color;
+  code: Color;
   image?: StaticImageData;
   notification?: boolean;
+}
+
+interface ProductColor2 {
+  name: string;
+  image: StaticImageData;
 }
 
 interface Product {
@@ -27,6 +32,7 @@ interface Product {
   name: string;
   images: StaticImageData[];
   colors: ProductColor[];
+  colors2: ProductColor2[];
   freeTransport?: boolean;
   stock: number;
   score: number;
@@ -169,10 +175,10 @@ const Product: FC<Product> = ({
                   >
                     <div
                       className="flex h-full w-full items-center justify-center overflow-hidden rounded-full border border-white"
-                      style={{ backgroundColor: color.color }}
+                      style={{ backgroundColor: color.code }}
                     >
                       {color.image && (
-                        <Image src={color.image} alt={color.color} />
+                        <Image src={color.image} alt={color.code} />
                       )}
                     </div>
                   </div>

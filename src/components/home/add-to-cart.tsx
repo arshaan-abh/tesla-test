@@ -1,10 +1,10 @@
 import { type FC, useState, useCallback } from "react";
+import { Tabs, TabsList } from "@radix-ui/react-tabs";
+import { TabsContent, TabsTrigger } from "@/components/ui/tabs";
 import { Cart } from "@/components/ui/icons";
 import AddAmount from "@/components/home/add-amount";
 import Image from "next/image";
-import gold from "/public/gold.png";
-import copper from "/public/copper.png";
-import silver from "/public/silver.png";
+import products from "@/constants/products";
 import replaceWithPersianDigits from "@/utils/replace-with-persian-digits";
 import {
   Drawer,
@@ -22,6 +22,8 @@ interface AddToBasketProps {
 }
 
 const AddToCart: FC<AddToBasketProps> = ({ id }) => {
+  const theProduct = products.find((product) => product.id === id);
+
   return (
     <Drawer>
       <DrawerTrigger className="flex h-7 w-7 items-center justify-center rounded-full bg-white shadow-[0_0_8px] shadow-black/[0.16]">
@@ -31,41 +33,39 @@ const AddToCart: FC<AddToBasketProps> = ({ id }) => {
         <DrawerHeader>
           <DrawerTitle>انتخاب تعداد و اندازه مدنظر:</DrawerTitle>
           <DrawerDescription>
-            <div className="grid grid-cols-3 gap-x-11 gap-y-4">
-              <Add id={id} size={1} weight={3.1} />
-              <Add id={id} size={2} weight={3.1} />
-              <Add id={id} size={3} weight={3.1} />
-              <Add id={id} size={4} weight={3.1} />
-              <Add id={id} size={5} weight={3.1} />
-            </div>
-            <div className="h-20" />
-            <div className="mb-4 flex items-center gap-3">
-              <div className="text-sm font-semibold tracking-tight">رنگ:</div>
-
-              <div className="flex grow justify-between gap-1 rounded-full bg-tesla-neutral-50 p-1">
-                <div className="relative flex gap-1 rounded-full bg-tesla-neutral-100 px-3 py-2">
-                  <Image src={gold} alt="Gold" />
-                  <div className="text-xs tracking-tight text-tesla-neutral-400">
-                    زرد
-                  </div>
-                </div>
-
-                <div className="relative flex gap-1 rounded-full bg-white px-3 py-2 shadow-[0_0_4px] shadow-black/[0.16]">
-                  <Image src={copper} alt="Copper" />
-                  <div className="text-xs tracking-tight text-tesla-neutral-400">
-                    رزگلد
-                  </div>
-                  <div className="absolute inset-x-0 -bottom-[0.625rem] mx-auto h-1 w-1 rounded-full bg-tesla-blue-500" />
-                </div>
-
-                <div className="relative flex gap-1 rounded-full bg-tesla-neutral-100 px-3 py-2">
-                  <Image src={silver} alt="Silver" />
-                  <div className="text-xs tracking-tight text-tesla-neutral-400">
-                    سفید
-                  </div>
-                </div>
+            <Tabs defaultValue={theProduct?.colors2[0].name} dir="rtl">
+              {theProduct?.colors2.map((color2, index) => (
+                <TabsContent
+                  className="grid grid-cols-3 gap-x-11 gap-y-4"
+                  value={color2.name}
+                  key={index}
+                >
+                  <Add id={id} size={1} weight={3.1} />
+                  <Add id={id} size={2} weight={3.1} />
+                  <Add id={id} size={3} weight={3.1} />
+                  <Add id={id} size={4} weight={3.1} />
+                  <Add id={id} size={5} weight={3.1} />
+                </TabsContent>
+              ))}
+              <div className="h-20" />
+              <div className="mb-4 flex items-center gap-3">
+                <div className="text-sm font-semibold tracking-tight">رنگ:</div>
+                <TabsList className="flex grow justify-between gap-1 rounded-full bg-tesla-neutral-50 p-1">
+                  {theProduct?.colors2.map((color2, index) => (
+                    <TabsTrigger
+                      className="relative flex gap-1 rounded-full bg-tesla-neutral-100 px-3 py-2"
+                      value={color2.name}
+                      key={index}
+                    >
+                      <Image src={color2.image} alt={color2.name} />
+                      <div className="text-xs tracking-tight text-tesla-neutral-400">
+                        {color2.name}
+                      </div>
+                    </TabsTrigger>
+                  ))}
+                </TabsList>
               </div>
-            </div>
+            </Tabs>
           </DrawerDescription>
         </DrawerHeader>
         <DrawerFooter>
