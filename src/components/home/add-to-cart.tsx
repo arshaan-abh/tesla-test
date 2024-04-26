@@ -1,4 +1,4 @@
-import { type FC, useState } from "react";
+import { type FC, useState, useCallback } from "react";
 import { Cart } from "@/components/ui/icons";
 import AddAmount from "@/components/home/add-amount";
 import Image from "next/image";
@@ -87,6 +87,10 @@ interface AddProps {
 const Add: FC<AddProps> = ({ size, weight }) => {
   const [amount, setAmount] = useState(0);
 
+  const setAmountAsProp = useCallback((amount: number) => {
+    setAmount(amount);
+  }, []);
+
   return (
     <div>
       <div>
@@ -110,7 +114,7 @@ const Add: FC<AddProps> = ({ size, weight }) => {
         </span>
       </div>
 
-      <AddAmount amount={amount} setAmount={setAmount} />
+      <AddAmount amount={amount} setAmount={setAmountAsProp} />
     </div>
   );
 };

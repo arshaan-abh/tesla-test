@@ -1,4 +1,4 @@
-import { FC, Dispatch, SetStateAction } from "react";
+import { FC, FormEvent, useState, useRef, useCallback } from "react";
 import { Plus, Trash } from "@/components/ui/icons";
 import replaceWithPersianDigits from "@/utils/replace-with-persian-digits";
 import {
@@ -14,14 +14,40 @@ import {
 
 interface AddAmountProps {
   amount: number;
-  setAmount: Dispatch<SetStateAction<number>>;
+  setAmount: (amount: number) => void;
 }
 
-const AddAmount: FC<AddAmountProps> = ({ amount }) => {
+const AddAmount: FC<AddAmountProps> = ({ amount, setAmount }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const amountInputRef = useRef<HTMLInputElement>(null);
+
+  const selectAmount = useCallback((amount: number) => {
+    if (amountInputRef.current)
+      amountInputRef.current.value = amount.toString();
+  }, []);
+
+  function onSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    try {
+      const formData = new FormData(event.currentTarget);
+      setAmount(parseInt(formData.get("amount")?.toString() ?? "0"));
+      setIsOpen(false);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
-    <Drawer>
+    <Drawer open={isOpen} onOpenChange={setIsOpen}>
       <DrawerTrigger className="flex h-10 w-full items-center justify-center rounded-lg bg-tesla-rose-500 text-white">
-        {amount > 0 ? <div /> : <Plus />}
+        {amount > 0 ? (
+          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-xs font-semibold tracking-tight text-tesla-rose-500">
+            {replaceWithPersianDigits(amount.toString())}
+          </div>
+        ) : (
+          <Plus />
+        )}
       </DrawerTrigger>
       <DrawerContent>
         <DrawerHeader>
@@ -40,22 +66,34 @@ const AddAmount: FC<AddAmountProps> = ({ amount }) => {
               {[...Array<null>(14)].map((_, index) => (
                 <div
                   className="text-sm font-semibold tracking-tight"
+                  onClick={() => {
+                    selectAmount(index + 2);
+                  }}
                   key={index}
                 >
                   {replaceWithPersianDigits((index + 2).toString())}
                 </div>
               ))}
             </div>
-            <div className="mb-8 flex h-10 overflow-hidden rounded">
+            <form
+              onSubmit={onSubmit}
+              className="mb-8 flex h-10 overflow-hidden rounded"
+            >
               <input
+                ref={amountInputRef}
+                name="amount"
                 type="number"
                 placeholder="تعداد دلخواه"
                 className="flex grow items-center bg-tesla-neutral-100 px-4 text-[0.625rem] tracking-tight"
+                required
               />
-              <button className="flex items-center bg-tesla-rose-500 px-4 text-sm font-semibold tracking-tight text-white">
+              <button
+                type="submit"
+                className="flex items-center bg-tesla-rose-500 px-4 text-sm font-semibold tracking-tight text-white"
+              >
                 تایید
               </button>
-            </div>
+            </form>
           </DrawerDescription>
         </DrawerHeader>
         <DrawerFooter>
