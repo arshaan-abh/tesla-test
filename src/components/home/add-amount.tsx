@@ -1,4 +1,4 @@
-import { FC, FormEvent, useState, useRef, useCallback } from "react";
+import { FC, FormEvent, useState, useCallback } from "react";
 import { Plus, Trash } from "@/components/ui/icons";
 import replaceWithPersianDigits from "@/utils/replace-with-persian-digits";
 import {
@@ -19,12 +19,14 @@ interface AddAmountProps {
 
 const AddAmount: FC<AddAmountProps> = ({ amount, setAmount }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const amountInputRef = useRef<HTMLInputElement>(null);
 
-  const selectAmount = useCallback((amount: number) => {
-    if (amountInputRef.current)
-      amountInputRef.current.value = amount.toString();
-  }, []);
+  const selectAmount = useCallback(
+    (amount: number) => {
+      setAmount(amount);
+      setIsOpen(false);
+    },
+    [setAmount],
+  );
 
   function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -60,11 +62,19 @@ const AddAmount: FC<AddAmountProps> = ({ amount, setAmount }) => {
           </DrawerTitle>
           <DrawerDescription>
             <div className="mb-6 grid grid-cols-5 gap-x-px gap-y-4 bg-tesla-neutral-100 *:flex *:justify-center *:bg-white *:shadow-[0_1rem_white]">
-              <div className="text-tesla-neutral-300">
+              <button
+                className={
+                  amount > 0 ? "text-tesla-rose-500" : "text-tesla-neutral-300"
+                }
+                onClick={() => {
+                  selectAmount(0);
+                }}
+                disabled={amount <= 0}
+              >
                 <Trash />
-              </div>
+              </button>
               {[...Array<null>(14)].map((_, index) => (
-                <div
+                <button
                   className="text-sm font-semibold tracking-tight"
                   onClick={() => {
                     selectAmount(index + 2);
@@ -72,7 +82,7 @@ const AddAmount: FC<AddAmountProps> = ({ amount, setAmount }) => {
                   key={index}
                 >
                   {replaceWithPersianDigits((index + 2).toString())}
-                </div>
+                </button>
               ))}
             </div>
             <form
@@ -80,7 +90,6 @@ const AddAmount: FC<AddAmountProps> = ({ amount, setAmount }) => {
               className="mb-8 flex h-10 overflow-hidden rounded"
             >
               <input
-                ref={amountInputRef}
                 name="amount"
                 type="number"
                 placeholder="تعداد دلخواه"
