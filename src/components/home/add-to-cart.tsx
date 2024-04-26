@@ -24,6 +24,23 @@ interface AddToBasketProps {
 const AddToCart: FC<AddToBasketProps> = ({ id }) => {
   const theProduct = useRef(products.find((product) => product.id === id));
 
+  const [added, setAdded] = useState(
+    theProduct.current?.colors2.map(() => false) ?? [],
+  );
+
+  const onAdd = useCallback((amount: number, index: number) => {
+    if (amount > 0)
+      setAdded((state) => {
+        state[index] = true;
+        return state;
+      });
+    else
+      setAdded((state) => {
+        state[index] = false;
+        return state;
+      });
+  }, []);
+
   return (
     <Drawer>
       <DrawerTrigger className="flex h-7 w-7 items-center justify-center rounded-full bg-white shadow-[0_0_8px] shadow-black/[0.16]">
@@ -40,11 +57,11 @@ const AddToCart: FC<AddToBasketProps> = ({ id }) => {
                   value={color2.name}
                   key={index}
                 >
-                  <Add id={id} size={1} weight={3.1} />
-                  <Add id={id} size={2} weight={3.1} />
-                  <Add id={id} size={3} weight={3.1} />
-                  <Add id={id} size={4} weight={3.1} />
-                  <Add id={id} size={5} weight={3.1} />
+                  <Add index={index} size={1} weight={3.1} onAdd={onAdd} />
+                  <Add index={index} size={2} weight={3.1} onAdd={onAdd} />
+                  <Add index={index} size={3} weight={3.1} onAdd={onAdd} />
+                  <Add index={index} size={4} weight={3.1} onAdd={onAdd} />
+                  <Add index={index} size={5} weight={3.1} onAdd={onAdd} />
                 </TabsContent>
               ))}
               <div className="h-20" />
@@ -61,6 +78,9 @@ const AddToCart: FC<AddToBasketProps> = ({ id }) => {
                       <div className="text-xs tracking-tight text-tesla-neutral-400">
                         {color2.name}
                       </div>
+                      {added[index] && (
+                        <div className="absolute inset-x-0 -bottom-[0.625rem] mx-auto h-1 w-1 rounded-full bg-tesla-blue-500" />
+                      )}
                     </TabsTrigger>
                   ))}
                 </TabsList>
@@ -79,17 +99,22 @@ const AddToCart: FC<AddToBasketProps> = ({ id }) => {
 export default AddToCart;
 
 interface AddProps {
-  id: number;
+  index: number;
   size: number;
   weight: number;
+  onAdd: (amount: number, index: number) => void;
 }
 
-const Add: FC<AddProps> = ({ size, weight }) => {
+const Add: FC<AddProps> = ({ index, size, weight, onAdd }) => {
   const [amount, setAmount] = useState(0);
 
-  const setAmountAsProp = useCallback((amount: number) => {
-    setAmount(amount);
-  }, []);
+  const setAmountAsProp = useCallback(
+    (amount: number) => {
+      setAmount(amount);
+      onAdd(amount, index);
+    },
+    [onAdd, index],
+  );
 
   return (
     <div>
