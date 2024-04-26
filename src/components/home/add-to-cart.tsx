@@ -1,4 +1,4 @@
-import { type FC, useState, useCallback } from "react";
+import { type FC, useState, useRef, useCallback } from "react";
 import { Tabs, TabsList } from "@radix-ui/react-tabs";
 import { TabsContent, TabsTrigger } from "@/components/ui/tabs";
 import { Cart } from "@/components/ui/icons";
@@ -22,7 +22,7 @@ interface AddToBasketProps {
 }
 
 const AddToCart: FC<AddToBasketProps> = ({ id }) => {
-  const theProduct = products.find((product) => product.id === id);
+  const theProduct = useRef(products.find((product) => product.id === id));
 
   return (
     <Drawer>
@@ -33,8 +33,8 @@ const AddToCart: FC<AddToBasketProps> = ({ id }) => {
         <DrawerHeader>
           <DrawerTitle>انتخاب تعداد و اندازه مدنظر:</DrawerTitle>
           <DrawerDescription>
-            <Tabs defaultValue={theProduct?.colors2[0].name} dir="rtl">
-              {theProduct?.colors2.map((color2, index) => (
+            <Tabs defaultValue={theProduct.current?.colors2[0].name} dir="rtl">
+              {theProduct.current?.colors2.map((color2, index) => (
                 <TabsContent
                   className="grid grid-cols-3 gap-x-11 gap-y-4"
                   value={color2.name}
@@ -51,7 +51,7 @@ const AddToCart: FC<AddToBasketProps> = ({ id }) => {
               <div className="mb-4 flex items-center gap-3">
                 <div className="text-sm font-semibold tracking-tight">رنگ:</div>
                 <TabsList className="flex grow justify-between gap-1 rounded-full bg-tesla-neutral-50 p-1">
-                  {theProduct?.colors2.map((color2, index) => (
+                  {theProduct.current?.colors2.map((color2, index) => (
                     <TabsTrigger
                       className="relative flex gap-1 rounded-full bg-tesla-neutral-100 px-3 py-2"
                       value={color2.name}
