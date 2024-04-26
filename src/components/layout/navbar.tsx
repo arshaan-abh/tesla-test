@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import { ArrowRight, Bag, Home, More, Search } from "./ui/icons";
+import { ArrowRight, Bag, Home, More, Search } from "../ui/icons";
 
 const NavBar: FC = () => {
   return (

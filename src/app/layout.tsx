@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 import localFont from "next/font/local";
 import "@/styles/globals.css";
 import { cn } from "@/utils/cn";
-import NavBar from "@/components/navbar";
+import NavBar from "@/components/layout/navbar";
 
 const fontYekan = localFont({
   src: "../fonts/yekan-bakh-noen-vf.woff2",
