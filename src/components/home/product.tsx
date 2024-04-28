@@ -131,11 +131,12 @@ const Product: FC<Product> = ({
           src={images[0]}
           className="absolute inset-0 z-0 blur-3xl"
           alt={name}
+          placeholder="blur"
         />
         <CarouselContent className="relative z-10 -ml-0">
           {images.map((image, index) => (
             <CarouselItem className="pl-0" key={index}>
-              <Image src={image} alt={name} />
+              <Image src={image} alt={name} placeholder="blur" />
             </CarouselItem>
           ))}
         </CarouselContent>
@@ -178,7 +179,11 @@ const Product: FC<Product> = ({
                       style={{ backgroundColor: color.code }}
                     >
                       {color.image && (
-                        <Image src={color.image} alt={color.code} />
+                        <Image
+                          src={color.image}
+                          alt={color.code}
+                          placeholder="blur"
+                        />
                       )}
                     </div>
                   </div>

@@ -74,7 +74,11 @@ const AddToCart: FC<AddToBasketProps> = ({ id }) => {
                       value={color2.name}
                       key={index}
                     >
-                      <Image src={color2.image} alt={color2.name} />
+                      <Image
+                        src={color2.image}
+                        alt={color2.name}
+                        placeholder="blur"
+                      />
                       <div className="text-xs tracking-tight text-tesla-neutral-400">
                         {color2.name}
                       </div>
