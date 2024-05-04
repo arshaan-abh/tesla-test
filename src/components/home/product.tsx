@@ -4,7 +4,6 @@ import Image, { StaticImageData } from "next/image";
 import { Color } from "@/types/color";
 import { Transport, Star, OpenBox, Clock, Bell } from "@/components/ui/icons";
 import AddToCart from "@/components/home/add-to-cart";
-import Autoplay from "embla-carousel-autoplay";
 import addCommas from "@/utils/add-commas";
 import replaceWithPersianDigits from "@/utils/replace-with-persian-digits";
 import {
@@ -121,11 +120,6 @@ const Product: FC<Product> = ({
         opts={{
           direction: "rtl",
         }}
-        plugins={[
-          Autoplay({
-            delay: 3000,
-          }),
-        ]}
       >
         <Image
           src={images[0]}
